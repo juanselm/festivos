@@ -9,7 +9,7 @@ public interface IFestivosServicio {
     
     public List<Festivo> listar(Date fecha);
 
-    public List<Festivo> getDomingoRamos(Date fecha);
+    public Date getDomingoRamos(Date fecha);
     
     public List<Festivo> getDomingonPascua(Date fecha);
     

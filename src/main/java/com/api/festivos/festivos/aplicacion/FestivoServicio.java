@@ -22,6 +22,7 @@ public class FestivoServicio implements IFestivosServicio {
         List<Festivo> festivos = new ArrayList<>();
         try{
             festivos = repositorioFestivos.findAll();
+            getDomingoRamos(fecha);
         }catch(Exception e){
             e.toString();
         }
@@ -29,9 +30,24 @@ public class FestivoServicio implements IFestivosServicio {
     }
 
     @Override
-    public List<Festivo> getDomingoRamos(Date fecha) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDomingoRamos'");
+    public Date getDomingoRamos(Date fecha) {
+        int anho = fecha.getYear() + 1900;
+        int a = anho % 19;
+        int b = anho % 4;
+        int c = anho % 7;
+        int d = (19 * a + 24) % 30;
+        int dias = d + (2 * b + 4 * c + 6 * d + 5) % 7;
+        int dia = 15 + dias;
+        int mes = 3;
+
+        if(dia>31){
+            dia = dia - 31;
+            mes = 4;
+        }
+        Date domingoRamos = new Date(anho - 1900, mes - 1, dia);
+        System.out.println(domingoRamos);
+        
+        return domingoRamos;
     }
 
     @Override
