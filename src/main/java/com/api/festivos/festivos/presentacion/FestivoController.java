@@ -36,9 +36,14 @@ public class FestivoController {
     
     @GetMapping("listar")
     public ResponseEntity<List<Festivo>> listarFestivos(@RequestParam("fecha") Date fecha) {
-        return ResponseEntity.ok(servicioFestivos.listar((Date)fecha));
+        return ResponseEntity.ok(servicioFestivos.listar(fecha));
         
     }
     
+    @GetMapping("check")
+    public boolean checkHolidays(@RequestParam("fecha") Date fecha) {
+        return servicioFestivos.check(fecha);
+        
+    }
     
 }

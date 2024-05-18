@@ -20,10 +20,19 @@ public class FestivoServicio implements IFestivosServicio {
 
     @Override
     public List<Festivo> listar(Date fecha) {
-        List<Festivo> festivos = new ArrayList<>();
+        List<Festivo> festivos = repositorioFestivos.findAll();
         try{
-            festivos = repositorioFestivos.findAll();
-            getDomingonPascua(fecha);
+            for (Festivo festivo : festivos) {
+                if(festivo.getTipo().getId() == 2){
+                    Date nextMonday = getNextMonday(new Date(fecha.getYear(), festivo.getMes() - 1 , festivo.getDia() ));
+                    System.out.println(nextMonday);
+                }else if(festivo.getTipo().getId() == 3){
+                    System.out.println("por pascua");
+                }else if(festivo.getTipo().getId() == 4){
+                    System.out.println("por pascua + sig lunes");
+                }
+            }
+            System.out.println(fecha.getMonth());
         }catch(Exception e){
             e.toString();
         }
@@ -32,54 +41,56 @@ public class FestivoServicio implements IFestivosServicio {
 
     @Override
     public Date getDomingoRamos(Date fecha) {
-        int anho = fecha.getYear() + 1900;
-        int a = anho % 19;
-        int b = anho % 4;
-        int c = anho % 7;
+        int year = fecha.getYear() + 1900;
+        int a = year % 19;
+        int b = year % 4;
+        int c = year % 7;
         int d = (19 * a + 24) % 30;
-        int dias = d + (2 * b + 4 * c + 6 * d + 5) % 7;
-        int dia = 15 + dias;
+        int days = d + (2 * b + 4 * c + 6 * d + 5) % 7;
+        int day = 15 + days;
         int mes = 3;
 
-        if(dia>31){
-            dia = dia - 31;
+        if(day > 31){
+            day = day - 31;
             mes = 4;
         }
-        Date domingoRamos = new Date(anho - 1900, mes - 1, dia);        
+        Date domingoRamos = new Date(year - 1900, mes - 1, day);        
         return domingoRamos;
     }
 
     @Override
-    public Date getDomingonPascua(Date fecha) {
-        Calendar domingoPascua = Calendar.getInstance();
-        domingoPascua.setTime(getDomingoRamos(fecha));
-        domingoPascua.add(Calendar.DATE, 7);
-        System.out.println(domingoPascua.getTime());
-        return domingoPascua.getTime();
+    public Date addDays(Date fecha, int days) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fecha);
+        calendar.add(Calendar.DATE, days);
+        return calendar.getTime();
     }
 
     @Override
-    public List<Festivo> getFijos(Date fecha) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getFijos'");
+    public Boolean check(Date fecha) {
+        List<Festivo> festivos = listar(fecha);
+        Boolean ckeck = false;
+        
+        for (Festivo festivo : festivos) {
+            if ((festivo.getDia() == fecha.getDay()) && (festivo.getMes() == (fecha.getMonth() - 1))) {
+                ckeck = true;
+                break;
+            }
+        }
+
+        return ckeck;
     }
 
     @Override
-    public List<Festivo> getLeyPFestivos(Date fecha) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getLeyPFestivos'");
-    }
-
-    @Override
-    public List<Festivo> getBasadosPascua(Date fecha) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getBasadosPascua'");
-    }
-
-    @Override
-    public List<Festivo> getBasadosPascuaLeyP(Date fecha) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getBasadosPascuaLeyP'");
+    public Date getNextMonday(Date fecha) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fecha);
+        if(calendar.get(Calendar.DAY_OF_WEEK) > calendar.MONDAY){
+            fecha = addDays(fecha, 9 - calendar.get(Calendar.DAY_OF_WEEK));
+        }else{
+            fecha = addDays(fecha, 0);
+        }
+        return fecha;
     }
     
 }
