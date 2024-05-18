@@ -11,7 +11,7 @@ public interface IFestivosServicio {
 
     public Date getDomingoRamos(Date fecha);
     
-    public List<Festivo> getDomingonPascua(Date fecha);
+    public Date getDomingonPascua(Date fecha);
     
     public List<Festivo> getFijos(Date fecha);
 

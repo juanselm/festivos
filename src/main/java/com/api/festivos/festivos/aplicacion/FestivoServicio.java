@@ -1,6 +1,7 @@
 package com.api.festivos.festivos.aplicacion;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class FestivoServicio implements IFestivosServicio {
         List<Festivo> festivos = new ArrayList<>();
         try{
             festivos = repositorioFestivos.findAll();
-            getDomingoRamos(fecha);
+            getDomingonPascua(fecha);
         }catch(Exception e){
             e.toString();
         }
@@ -44,16 +45,17 @@ public class FestivoServicio implements IFestivosServicio {
             dia = dia - 31;
             mes = 4;
         }
-        Date domingoRamos = new Date(anho - 1900, mes - 1, dia);
-        System.out.println(domingoRamos);
-        
+        Date domingoRamos = new Date(anho - 1900, mes - 1, dia);        
         return domingoRamos;
     }
 
     @Override
-    public List<Festivo> getDomingonPascua(Date fecha) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDomingonPascua'");
+    public Date getDomingonPascua(Date fecha) {
+        Calendar domingoPascua = Calendar.getInstance();
+        domingoPascua.setTime(getDomingoRamos(fecha));
+        domingoPascua.add(Calendar.DATE, 7);
+        System.out.println(domingoPascua.getTime());
+        return domingoPascua.getTime();
     }
 
     @Override
