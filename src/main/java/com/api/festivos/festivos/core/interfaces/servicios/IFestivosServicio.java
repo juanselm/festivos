@@ -7,13 +7,13 @@ import com.api.festivos.festivos.core.dominio.Festivo;
 
 public interface IFestivosServicio {
     
-    public List<Festivo> listar(Date year);
+    public List<Festivo> listar(Date date);
 
-    public Date getDomingoRamos(Date fecha);
+    public Date getDomingoRamos(Date date);
     
-    public Date addDays(Date fecha, int days);
+    public Date addDays(Date date, int days);
     
-    public Boolean check(Date fecha);
+    public Boolean check(Date date);
 
-    public Date getNextMonday(Date fecha);
+    public Date getNextMonday(Date date);
 }
