@@ -40,4 +40,10 @@ public class Festivo {
     @JoinColumn(name = "idtipo", insertable = false, updatable = false)
     private Tipo tipo;
 
+    @Override
+    public String toString() {
+        return "Festivo [id=" + id + ", nombre=" + nombre + ", dia=" + dia + ", mes=" + mes + ", diasPascua="
+                + diasPascua + ", tipo=" + tipo + "]";
+    }
+
 }

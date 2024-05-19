@@ -25,14 +25,20 @@ public class FestivoServicio implements IFestivosServicio {
             for (Festivo festivo : festivos) {
                 if(festivo.getTipo().getId() == 2){
                     Date nextMonday = getNextMonday(new Date(fecha.getYear(), festivo.getMes() - 1 , festivo.getDia() ));
-                    System.out.println(nextMonday);
+                    festivo.setDia(nextMonday.getDate());
+                    festivo.setMes(nextMonday.getMonth() + 1);
                 }else if(festivo.getTipo().getId() == 3){
-                    System.out.println("por pascua");
+                    Date sundayRamos = this.getDomingoRamos(fecha);
+                    Date easterDay = addDays(addDays(new Date(sundayRamos.getYear(), sundayRamos.getMonth(), sundayRamos.getDate()), 7), festivo.getDiasPascua());
+                    festivo.setDia(easterDay.getDate());
+                    festivo.setMes(easterDay.getMonth() + 1);
                 }else if(festivo.getTipo().getId() == 4){
-                    System.out.println("por pascua + sig lunes");
+                    Date sundayRamos = this.getDomingoRamos(fecha);
+                    Date easterDay = this.getNextMonday(addDays(addDays(new Date(sundayRamos.getYear(), sundayRamos.getMonth(), sundayRamos.getDate()), 7), festivo.getDiasPascua()));
+                    festivo.setDia(easterDay.getDate());
+                    festivo.setMes(easterDay.getMonth() + 1);
                 }
             }
-            System.out.println(fecha.getMonth());
         }catch(Exception e){
             e.toString();
         }
@@ -70,9 +76,8 @@ public class FestivoServicio implements IFestivosServicio {
     public Boolean check(Date fecha) {
         List<Festivo> festivos = listar(fecha);
         Boolean ckeck = false;
-        
         for (Festivo festivo : festivos) {
-            if ((festivo.getDia() == fecha.getDay()) && (festivo.getMes() == (fecha.getMonth() - 1))) {
+            if ((festivo.getDia() == fecha.getDate()) && (festivo.getMes() == (fecha.getMonth() + 1))) {
                 ckeck = true;
                 break;
             }
