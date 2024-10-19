@@ -13,7 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class FestivosServicioImplTests {
+class FestivosServicioImplTests {
 
     @Autowired
     private IFestivosServicio festivosServicio;
