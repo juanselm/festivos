@@ -14,8 +14,13 @@ import com.api.festivos.festivos.core.interfaces.servicios.IFestivosServicio;
 @Service
 public class FestivoServicio implements IFestivosServicio {
 
-    @Autowired
-    private IFestivosRepositorio repositorioFestivos;
+    
+    private final IFestivosRepositorio repositorioFestivos;
+
+    // Constructor para inyección de dependencias
+    public FestivoServicio(IFestivosRepositorio repositorioFestivos) {
+        this.repositorioFestivos = repositorioFestivos;
+    }
 
     @Override
     public List<Festivo> listar(Date fecha) {

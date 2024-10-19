@@ -23,8 +23,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/api/festivos")
 public class FestivoController {
 
-    @Autowired
-    private IFestivosServicio servicioFestivos;
+    private final IFestivosServicio servicioFestivos;
+
+    // Constructor para inyección de dependencias
+    public FestivoController(IFestivosServicio servicioFestivos) {
+        this.servicioFestivos = servicioFestivos;
+    }
 
 
     @InitBinder
