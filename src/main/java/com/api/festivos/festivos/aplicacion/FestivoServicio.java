@@ -4,7 +4,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.api.festivos.festivos.core.dominio.Festivo;
@@ -64,8 +63,8 @@ public class FestivoServicio implements IFestivosServicio {
             day = day - 31;
             mes = 4;
         }
-        Date domingoRamos = new Date(year - 1900, mes - 1, day);        
-        return domingoRamos;
+ 
+        return new Date(year - 1900, mes - 1, day);
     }
 
     @Override
